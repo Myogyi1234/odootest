@@ -1,0 +1,18 @@
+<odoo>
+    <data> <record id="action_student_check_in" model="ir.actions.act_window">
+            <field name="name">Student Check-In</field>
+            <field name="res_model">student.check_in</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_student_check_in_root" name="Student Check-In" sequence="10"/>
+
+        <menuitem id="menu_student_check_in_list" name="Check-In Records"
+                  parent="menu_student_check_in_root"
+                  action="action_student_check_in" sequence="10"/>
+        <menuitem id="menu_student_checkin_root"
+          name="Student Check In"
+          web_icon="student_check_in,static/description/icon.png"
+          sequence="10"/>
+    </data>
+</odoo>
