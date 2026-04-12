@@ -13,6 +13,6 @@
         <menuitem id="menu_student_checkin_root"
           name="Student Check In"
           web_icon="student_check_in,static/description/icon.png"
-          sequence="10"/>
+          sequence="90"/>
     </data>
 </odoo>
