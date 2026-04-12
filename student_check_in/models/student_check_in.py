@@ -4,7 +4,7 @@ from odoo.exceptions import ValidationError
 
 class StudentCheckIn(models.Model):
     _name = 'student.check_in'  # XML ထဲက res_model နဲ့ တစ်ထပ်တည်း တူရပါမယ်
-    _description = 'Student Check-In Records'
+    _description = 'Student Check-In Records'#test
     _order = 'check_in_time desc'
 
     # Database Fields (Columns)
