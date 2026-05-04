@@ -1,0 +1,26 @@
+<odoo>
+    <record id="view_student_parent_form" model="ir.ui.view">
+        <field name="name">student.parent.form</field>
+        <field name="model">student.parent</field>
+        <field name="arch" type="xml">
+            <form string="Parent Information">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="nrc_no" placeholder="၁၂/မရက(နိုင်)၁၂၃၄၅၆"/>
+                        <field name="relation"/>
+                        <field name="job_title"/>
+                        <field name="phone_number"/>
+
+                    </group>
+                </sheet>
+            </form>
+        </field>
+
+    </record>
+    <record id="student_patent" model="ir.actions.act_window">
+        <field name="name">Students</field>
+        <field name="res_model">student.parent</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

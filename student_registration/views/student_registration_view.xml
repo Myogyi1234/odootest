@@ -35,6 +35,12 @@
                             <field name="phone"/>
                         </group>
                     </group>
+                    <group string="Parent Details">
+                        <group>
+                            <field name="father_id" context="{'default_relation': 'father'}"/>
+                            <field name="mother_id" context="{'default_relation': 'mother'}"/>
+                        </group>
+                    </group>
                     <notebook>
                         <page string="Address Information">
                             <field name="address"/>

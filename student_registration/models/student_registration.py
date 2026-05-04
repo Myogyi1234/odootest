@@ -9,11 +9,15 @@ class StudentRegistration(models.Model):
     name = fields.Char(string='Student Name', required=True)
     roll_number = fields.Char(string='Student Roll No.', required=True)
     date_of_birth = fields.Date(string='Date of Birth', required=True)
-    gender=fields.Selection([
+    gender = fields.Selection([
         ('male', 'Male'),
         ('female', 'Female'),
         ('other', 'Other')
-    ],string='Gender',default='male')
+    ], string='Gender', default='male')
+
+    father_id = fields.Many2one('student.parent', string="Father Information", domain=[('relation', '=', 'father')])
+    mother_id = fields.Many2one('student.parent', string="Mother Information", domain=[('relation', '=', 'mother')])
+
     email = fields.Char(string='Email')
     phone = fields.Char(string='Phone')
     address = fields.Char(string='Address')
@@ -22,7 +26,7 @@ class StudentRegistration(models.Model):
         ('confirmed', 'Confirmed'),
         ('cancel', 'Cancelled'),
 
-    ], string='Status',default='draft',readonly=True)
+    ], string='Status', default='draft', readonly=True)
 
     def action_confirm(self):
         self.state = 'confirmed'

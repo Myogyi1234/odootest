@@ -7,6 +7,7 @@
  'data':[
      'security/ir.model.access.csv',
      'views/student_registration_view.xml',
+     'views/student_parent_view.xml',
 ],
 'installable': True,
     'auto_install': False,
