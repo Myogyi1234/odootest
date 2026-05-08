@@ -5,6 +5,7 @@
     'summary': 'Module for student registration',
     'depends': ['base','mail'],
  'data':[
+     'data/ir_sequence_data.xml',
      'security/ir.model.access.csv',
      'views/student_registration_view.xml',
      'views/student_parent_view.xml',

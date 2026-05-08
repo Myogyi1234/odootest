@@ -1,3 +1,67 @@
+<!--<odoo>-->
+<!--    <record id="view_student_registration_tree" model="ir.ui.view">-->
+<!--        <field name="name">student.registration.tree</field>-->
+<!--        <field name="model">student.registration</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <tree>-->
+<!--                <field name="name"/>-->
+<!--                <field name="roll_number"/>-->
+<!--                <field name="email"/>-->
+<!--                <field name="state"/>-->
+<!--            </tree>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="view_student_registration_form" model="ir.ui.view">-->
+<!--        <field name="name">student.registration.form</field>-->
+<!--        <field name="model">student.registration</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form>-->
+<!--                <header>-->
+<!--                    <button name="action_confirm" string="Confirm" type="object"-->
+<!--                            class="oe_highlight" invisible="state != 'draft'"/>-->
+<!--                    <field name="state" widget="statusbar"/>-->
+<!--                </header>-->
+<!--                <sheet>-->
+<!--                    <group>-->
+<!--                        <group>-->
+<!--                            <field name="name"/>-->
+<!--                            <field name="roll_number"/>-->
+<!--                            <field name="date_of_birth"/>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <field name="gender"/>-->
+<!--                            <field name="email"/>-->
+<!--                            <field name="phone"/>-->
+<!--                        </group>-->
+<!--                    </group>-->
+<!--                    <group string="Parent Details">-->
+<!--                        <group>-->
+<!--                            <field name="father_id" context="{'default_relation': 'father'}"/>-->
+<!--                            <field name="mother_id" context="{'default_relation': 'mother'}"/>-->
+<!--                        </group>-->
+<!--                    </group>-->
+<!--                    <notebook>-->
+<!--                        <page string="Address Information">-->
+<!--                            <field name="address"/>-->
+<!--                        </page>-->
+<!--                    </notebook>-->
+<!--                </sheet>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="action_student_registration" model="ir.actions.act_window">-->
+<!--        <field name="name">Students</field>-->
+<!--        <field name="res_model">student.registration</field>-->
+<!--        <field name="view_mode">tree,form</field>-->
+<!--    </record>-->
+
+<!--    <menuitem id="menu_student_root" name="School Management"/>-->
+<!--    <menuitem id="menu_student_registration" name="Students"-->
+<!--              parent="menu_student_root" action="action_student_registration"/>-->
+<!--</odoo>-->
+
 <odoo>
     <record id="view_student_registration_tree" model="ir.ui.view">
         <field name="name">student.registration.tree</field>
@@ -18,16 +82,44 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_confirm" string="Confirm" type="object"
-                            class="oe_highlight" invisible="state != 'draft'"/>
-                    <field name="state" widget="statusbar"/>
+                    <!-- Draft တဲ့အခါ Confirm ပဲပြ -->
+                    <button name="action_confirm"
+                            string="Confirm"
+                            type="object"
+                            class="oe_highlight"
+                            invisible="state != 'draft'"/>
+
+                    <!-- Draft နဲ့ Confirmed တဲ့အခါ Cancel ပြ -->
+                    <button name="action_cancel"
+                            string="Cancel"
+                            type="object"
+                            invisible="state == 'cancel'"
+                            confirm="သေချာပါသလား? ဤ record ကို ပယ်ဖျက်မည်။"/>
+
+                    <!-- Cancel တဲ့အခါ Reset to Draft ပြ -->
+                    <button name="action_reset_to_draft"
+                            string="Reset to Draft"
+                            type="object"
+                            invisible="state != 'cancel'"/>
+
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirmed,cancel"/>
                 </header>
                 <sheet>
+                    <!-- Student ID - readonly ဖြစ်သောကြောင့် အပေါ်မှာ ထား -->
+                    <div class="oe_title">
+                        <label for="student_id"/>
+                        <h1>
+                            <field name="student_id" readonly="1"/>
+                        </h1>
+                    </div>
                     <group>
                         <group>
                             <field name="name"/>
+                              <field name="nrc_no" placeholder="5/KaBaLa(NAING)262100 (or) ၁၂/မရက(နိုင်)၁၂၃၄၅၆"/>
                             <field name="roll_number"/>
                             <field name="date_of_birth"/>
+                            <field name="age"/>        <!-- compute field -->
                         </group>
                         <group>
                             <field name="gender"/>
@@ -59,5 +151,6 @@
 
     <menuitem id="menu_student_root" name="School Management"/>
     <menuitem id="menu_student_registration" name="Students"
-              parent="menu_student_root" action="action_student_registration"/>
+              parent="menu_student_root"
+              action="action_student_registration"/>
 </odoo>
