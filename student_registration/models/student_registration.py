@@ -44,12 +44,61 @@ class StudentRegistration(models.Model):
     email = fields.Char(string='Email')
     phone = fields.Char(string='Phone')
     address = fields.Char(string='Address')
+    # ── ကျောင်းတက်နှစ် ──────────────────────────────────────
+    academic_year = fields.Selection(
+        selection='_get_academic_years',
+        string='Academic Year',
+        required=True,
+    )
+
+    # ── ကျောင်းလခ ────────────────────────────────────────────
+    fee_ids = fields.One2many(
+        'student.fee',
+        'student_id',
+        string='School Fees'
+    )
+    total_fee = fields.Float(
+        string='Total Fee',
+        compute='_compute_total_fee',
+        store=True
+    )
+    total_paid = fields.Float(
+        string='Total Paid',
+        compute='_compute_total_fee',
+        store=True
+    )
+    total_due = fields.Float(
+        string='Total Due',
+        compute='_compute_total_fee',
+        store=True
+    )
 
     state = fields.Selection([
         ('draft', 'Draft'),
         ('confirmed', 'Confirmed'),
         ('cancel', 'Cancelled'),
     ], string='Status', default='draft', readonly=True, tracking=True)
+
+    # ── Academic Year တွက် ────────────────────────────────────
+    @api.model
+    def _get_academic_years(self):
+        current_year = fields.Date.today().year
+        years = []
+        # လက်ရှိနှစ် မတိုင်မှီ ၂နှစ် + လက်ရှိ + နောက် ၃နှစ်
+        for y in range(current_year - 2, current_year + 4):
+            label = f"{y}/{y + 1}"
+            years.append((label, label))
+        return years
+
+
+    # ── Compute Fee ───────────────────────────────────────────
+    @api.depends('fee_ids.amount', 'fee_ids.paid_amount')
+    def _compute_total_fee(self):
+        for rec in self:
+            rec.total_fee = sum(rec.fee_ids.mapped('amount'))
+            rec.total_paid = sum(rec.fee_ids.mapped('paid_amount'))
+            rec.total_due = rec.total_fee - rec.total_paid
+
 
     # ── Compute Age ────────────────────────────────────────
 
@@ -119,7 +168,7 @@ class StudentRegistration(models.Model):
         self.write({'state': 'cancel'})
 
     def action_reset_to_draft(self):
-        for rec in self:
+        for rec in      self:
             if rec.state != 'cancel':
                 raise UserError(
                     _("Only Cancelled records can be reset to Draft.")

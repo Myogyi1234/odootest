@@ -1,0 +1,100 @@
+<odoo>
+    <!-- ───── Tree View ───── -->
+    <record id="view_student_fee_tree" model="ir.ui.view">
+        <field name="name">student.fee.tree</field>
+        <field name="model">student.fee</field>
+        <field name="arch" type="xml">
+            <tree string="Student Fees"
+                  decoration-danger="state == 'unpaid'"
+                  decoration-warning="state == 'partial'"
+                  decoration-success="state == 'paid'">
+                <field name="student_id"/>
+                <field name="academic_year"/>
+                <field name="month"/>
+                <field name="amount"/>
+                <field name="paid_amount"/>
+                <field name="due_amount"/>
+                <field name="payment_date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ───── Form View ───── -->
+    <record id="view_student_fee_form" model="ir.ui.view">
+        <field name="name">student.fee.form</field>
+        <field name="model">student.fee</field>
+        <field name="arch" type="xml">
+            <form string="Student Fee">
+                <header>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="unpaid,partial,paid"/>
+                </header>
+                <sheet>
+                    <group string="Student Details">
+                        <group>
+                            <field name="student_id"/>
+                            <field name="academic_year"/>
+                            <field name="month"/>
+                        </group>
+                    </group>
+
+                    <group string="Financial Information ">
+                        <group>
+                            <field name="amount"/>
+                            <field name="paid_amount"/>
+                        </group>
+                        <group>
+                            <field name="due_amount"/>
+                            <field name="payment_date"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ───── Search View ───── -->
+    <record id="view_student_fee_search" model="ir.ui.view">
+        <field name="name">student.fee.search</field>
+        <field name="model">student.fee</field>
+        <field name="arch" type="xml">
+            <search string="Search Fees">
+                <field name="student_id"/>
+                <field name="academic_year"/>
+                <field name="month"/>
+                <!-- Filter တွေ -->
+                <filter string="Unpaid" name="unpaid" domain="[('state','=','unpaid')]"/>
+                <filter string="Partial" name="partial" domain="[('state','=','partial')]"/>
+                <filter string="Paid" name="paid" domain="[('state','=','paid')]"/>
+                <separator/>
+                <!-- Group By တွေ -->
+                <group expand="0" string="Group By">
+                    <filter string="Academic Year" name="group_year"
+                            context="{'group_by': 'academic_year'}"/>
+                    <filter string="Month" name="group_month"
+                            context="{'group_by': 'month'}"/>
+                    <filter string="Student" name="group_student"
+                            context="{'group_by': 'student_id'}"/>
+                    <filter string="Status" name="group_state"
+                            context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ───── Action ───── -->
+    <record id="action_student_fee" model="ir.actions.act_window">
+        <field name="name">School Fees</field>
+        <field name="res_model">student.fee</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_student_fee_search"/>
+    </record>
+
+    <!-- ───── Menu ───── -->
+    <menuitem id="menu_student_fee"
+              name="Student Fees"
+              parent="menu_student_root"
+              action="action_student_fee"
+              sequence="2"/>
+</odoo>
