@@ -1,0 +1,5 @@
+<odoo>
+    <record id="sale.menu_sale_quotations" model="ir.ui.menu">
+        <field name="active">False</field>
+    </record>
+</odoo>

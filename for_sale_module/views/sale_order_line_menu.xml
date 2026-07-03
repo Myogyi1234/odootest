@@ -1,0 +1,13 @@
+<odoo>
+    <record id="action_sale_order_line_standalone" model="ir.actions.act_window">
+        <field name="name">Order Lines</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_sale_order_line_standalone"
+        name="Sales Order Lines"
+        action="action_sale_order_line_standalone"
+        parent="sale.sale_order_menu"
+        sequence="25"/>
+</odoo>
